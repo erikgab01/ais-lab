@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Font Awesome icons -->
+    <link href="{% static 'icons/styles/all.min.css' %}" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/utility.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/room.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/playlist.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/chat.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/users.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/player.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mobile.css' %}">
+	<!-- Title -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/sharedmusic_icon.png' %}">
+    <title>Shared Music | {% block title %}{% endblock title %}</title>
+    <meta name="description" content="Shared Music service provides you rooms where you can listen to music with friends or anyone else who wants to come in. All you have to do is click create room button and share the link. It's that simple!">
+    <meta name="keywords" content="synchronized, together, youtube, videos, friends, social, sharedmusic, shared, music, rooms">
+  </head>
+
+  <body>
+    <nav id="collapse-sidebar" class="sidebar">
+        <a
+            href="javascript:void(0)"
+            class="sidebar__closebtn"
+            onclick="closeNav()"
+            >&times;</a
+        >
+        <a href="{% url 'home' %}" class="sidebar__link">
+            <i class="fa-solid fa-house"></i>
+            <p>Home</p>
+        </a>
+        <a href="{% url 'login' %}" class="sidebar__link">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <p>Log in</p>
+        </a>
+        <img class="sidebar__logo responsive-image" src="/static/images/sharedmusic.svg" alt="logo">
+        {% if user.is_authenticated %}
+        <div class="sidebar__user">
+            <h6>Welcome, {{ user.username }}</h6>
+            <a href="{% url 'logout' %}" class="sidebar__link sidebar__link_logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <p>Logout</p>
+            </a>
+        </div>
+        {% endif %}
+    </nav>
+    <button class="sidebar__openbtn" onclick="openNav()">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="100%"
+            fill="none"
+            viewBox="0 0 24 16"
+        >
+            <path
+                fill="#fff"
+                fill-rule="evenodd"
+                d="M0 1.4c0 .7.567 1.267 1.267 1.267h21.466C23.433 2.667 24 2.1 24 1.4v-.133C24 .567 23.433 0 22.733 0H1.267C.567 0 0 .567 0 1.267V1.4zm1.267 7.933C.567 9.333 0 8.766 0 8.067v-.134c0-.7.567-1.266 1.267-1.266h21.466c.7 0 1.267.567 1.267 1.266v.134c0 .7-.567 1.266-1.267 1.266H1.267zm0 6.667C.567 16 0 15.433 0 14.733V14.6c0-.7.567-1.267 1.267-1.267h21.466c.7 0 1.267.567 1.267 1.267v.133c0 .7-.567 1.267-1.267 1.267H1.267z"
+                clip-rule="evenodd"
+            ></path>
+        </svg>
+    </button>
+
+    <main id="main">
+        <div onclick="closeNav()" class="overlay"></div>
+        <div class="container">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </main>
+  </body>
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <script src="{% static 'js/modal.js' %}"></script>
+  <script src="{% static 'js/navbar.js' %}"></script>
+  <!-- Optional JavaScript -->
+  {% block scripts %}
+  {% endblock scripts %}
+</html>

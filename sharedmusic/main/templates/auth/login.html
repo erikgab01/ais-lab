@@ -1,0 +1,43 @@
+{% extends "layout/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block content %}
+
+  {% if user.is_authenticated %}
+    <p class="already-logged-message">Already logged in. <a href="{% url 'logout' %}">Want to log out?</a></p>
+  {% else %}
+  <div class="sign-form">
+    <div class="switch-buttons">
+        <a
+            id="switch-login-button"
+            class="switch-buttons__button switch-buttons__button_chosen"
+            href="{% url 'login' %}"
+        >
+            Sign In
+        </a>
+        <a
+            id="switch-register-button"
+            class="switch-buttons__button"
+            href="{% url 'signup' %}"
+        >
+            Register
+        </a>
+    </div>
+    <form
+        id="login-form"
+        class="login"
+        method="POST"
+    >
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn login__btn" type="submit">
+            Sign In
+        </button>
+    </form>
+  </div>
+
+  {% endif %}
+
+{% endblock content %}

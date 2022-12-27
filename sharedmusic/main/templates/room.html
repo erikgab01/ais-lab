@@ -1,0 +1,103 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %}Room{% endblock title %}
+
+{% block content %}
+{% if is_banned %}
+<div class="loading">
+    <div class="loading__error">You are banned from this room</div>
+</div>
+{% else %}
+<div class="loading">
+    <div class="loading__animation"><div></div><div></div></div>
+    <div class="loading__error"></div>
+    <div class="loading__message">If loading takes too long, try refreshing the page.</div>
+</div>
+<div class="content hidden">
+    <div id="mute-msg">
+        <p>Player is currently muted. Click anywhere to unmute it.</p>
+    </div>
+    <div class="room-title">
+        <h1 id="room-title" class="room-title__name"></h1>
+        <button title="Copy link to clipboard" onclick="copyLinkToClipboard(this)" class="btn btn-image"><i class="fa-solid fa-copy"></i></button>
+    </div>
+    <div class="lobby">
+        <div class="chat">
+            <div id="room" room_code="{{ room.id }}"></div>
+            <div id="host" host_username="{{ room.host.username }}"></div>
+            <div id="user" username="{{ user.username }}"></div>
+            <h4>Chat:</h4>
+            <div id="chat" class="chat__messages"></div>
+            <div class="chat__input">
+                <input id="chat-field" type="text" placeholder="Enter message"/>
+                <button title="Send message to chat" class="btn btn-image" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+            <div id="muted-message" class="chat__muted-message hidden">You are muted</div>
+        </div>
+        <div class="playlist">
+            <h4>Playlist:</h4>
+            <div id="playlist" class="playlist__tracks"></div>
+            <div class="playlist__input">
+                <input id="url-field" type="text" placeholder="Enter youtube url"/>
+                <button title="Add track to playlist" class="btn btn-image" onclick="addTrack()"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <div id="playlist-error" class="playlist__error"></div>
+            <div id="playlist-tooltip" class="playlist__tooltip"></div>
+        </div>
+        <div class="users">
+            <h4>Online users:</h4>
+            <ul id="users-list" class="users__list">
+            </ul>
+            <div class="users__buttons">
+                <button title="View permissions" class="btn btn-image" onclick="showModal()"><i class="fa-solid fa-list-check"></i></button>
+                <button title="View banlist" class="btn btn-image hidden" onclick="showBanlistModal()" host-only><i class="fa-solid fa-user-slash"></i></button>
+            </div>
+        </div>
+    </div>
+    <!--Youtube-->
+    <div id="player" style="display: none; visibility: hidden;"></div>
+    <!--Player-->
+    <div class="audio-player">
+        <div class="timeline">
+            <div class="progress-tooltip"></div>
+            <div class="progress"></div>
+        </div>
+        <div class="controls">
+            <div class="play-container">
+                <i onclick="backward()" class="fa-solid fa-backward-step control-button"></i>
+                <div class="toggle-play play"></div>
+                <i onclick="forward()" class="fa-solid fa-forward-step control-button"></i>
+            </div>
+            <div class="volume-container">
+                <div class="volume-button">
+                    <div class="volume icono-volumeMedium"></div>
+                </div>
+                <input class="volume-slider" type="range" min="0" max="100" step="1">
+            </div>
+            <div class="time">
+                <div class="current">0:00</div>
+                <div class="divider">/</div>
+                <div class="length"></div>
+            </div>
+            <i onclick="changeLoop()" class="fa-solid fa-arrow-rotate-left repeat-btn"></i>
+            <div class="name">
+                <img class="thumb" src="" width="45" height="45" hidden>
+                <div class="title"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'js/socket.js' %}"></script>
+    <script src="{% static 'js/utility.js' %}"></script>
+    <script src="{% static 'js/users.js' %}"></script>
+    <script src="{% static 'js/chat.js' %}"></script>
+    <script src="{% static 'js/player.js' %}"></script>
+    <script src="{% static 'js/playlist.js' %}"></script>
+    <script src="{% static 'js/permissions.js' %}"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+{% endblock scripts %}
